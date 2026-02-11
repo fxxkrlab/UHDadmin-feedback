@@ -1,0 +1,15 @@
+# UI_COVERAGE_MATRIX — Credits & Invite Purchase Coverage（初版）
+> 审计状态：默认标记 MISSING，落证后改 PASS/FAIL 并填文件名。
+
+| Feature | DB/Fields/Migrations | APIs | Frontend Routes/Pages | Permissions | Settings (category/key/type/help) | Evidence (logs) | Status |
+|---------|----------------------|------|-----------------------|-------------|-----------------------------------|-----------------|--------|
+| Credits vs Points 显示 | migrations/068_alter_users_add_credits.sql; migrations/068_create_credits_ledger.sql | /api/v1/user/me; /api/v1/admin/users/{id} | /user/profile; /admin/users | admin/users manage | general/credits_display_name (string/help); general/points_display_name (string/help) | logs/ac_user_me_shows_points_credits.json; logs/ac_ui_profile_points_credits.png | MISSING |
+| Credits 兑换设置 | 同上 | /api/v1/settings | /admin/system-settings | system settings | invite/allow_points_to_credits_exchange (bool); invite/points_to_credits_rate (number/help); invite/credits_to_points_rate (number/help); invite/allow_credit_topup (bool) | logs/ac_settings_put_exchange_rates.json | MISSING |
+| 邀请码购买 currency mode | migrations/069_alter_invite_orders_currency.sql | /api/v1/invite-orders | /user/invite-codes | invite_purchase | invite/invite_purchase_currency_mode (select credits_only/fiat_only/both/help) | logs/ac_invite_buy_with_credits_ok.json; logs/ac_invite_buy_points_unchanged.json; logs/ac_credits_ledger_entry.json | MISSING |
+| 系统设置 schema 渲染 | migrations/065_create_system_settings_schema.sql (如需) | /api/v1/admin/system-settings/schema; /api/v1/settings | /admin/system-settings | system settings | 全部注册 keys | logs/ac_system_settings_schema.json; logs/ac_system_settings_page.png | MISSING |
+| 订单金额 USD/FX | migrations/070_alter_invite_orders_fx.sql | /api/v1/invite-orders | /admin/orders | aff_manage | payment/payment_provider (string/select/help) | logs/ac_order_amount_usd_snapshot.json; logs/ac_admin_orders_page.png | MISSING |
+| Aff USD 返佣 | migrations/059_create_aff_commissions.sql; migrations/070_alter_aff_commissions_usd.sql | /api/v1/aff/commissions | /admin/aff | aff_manage | aff/allow_aff (bool); aff/aff_rebate_percent (number/help) | logs/ac_aff_usd_ledger.json; logs/ac_aff_admin_page.png | MISSING |
+| 注册邀请码校验 | migrations/059_alter_invitations_add_fields.sql | /api/v1/auth/register | /auth/register | public + registration_invite_required | auth/registration_invite_required (bool/help) | logs/ac_req10_api.json; logs/ac_req10_page.png | MISSING |
+| 批量有效期修改 | migrations/063_create_invite_bulk_expiry_jobs.sql (如需) | /api/v1/admin/invites/bulk-expiry | /admin/system-settings (invite tab) 或独立页 | invite_expiry_bulk_edit | invite/bulk_expiry_rule (json/help) | logs/ac_bulk_expiry_request.json; logs/ac_bulk_expiry_result.json | MISSING |
+| 支付插件占位 | migrations/062_alter_invite_orders_payment_fields.sql (如需) | /api/v1/payment/dummy/create_invoice; /api/v1/payment/dummy/confirm | 支付占位入口 | admin/manage payments | payment/payment_provider (string/select/help) | logs/ac_payment_dummy_invoice.json; logs/ac_payment_dummy_paid.json | MISSING |
+| E2E 覆盖 | N/A | 各相关 API | 所有相关页面 | 汇总 | 汇总 | logs/FRONTEND_E2E_REPORT.md | MISSING |
